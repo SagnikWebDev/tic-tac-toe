@@ -1,44 +1,12 @@
 const patterns = [
-  {
-    0: 1,
-    1: 2,
-    2: 3,
-  },
-  {
-    0: 4,
-    1: 5,
-    2: 6,
-  },
-  {
-    0: 7,
-    1: 8,
-    2: 9,
-  },
-  {
-    0: 1,
-    1: 4,
-    2: 7,
-  },
-  {
-    0: 2,
-    1: 5,
-    2: 8,
-  },
-  {
-    0: 3,
-    1: 6,
-    2: 9,
-  },
-  {
-    0: 1,
-    1: 5,
-    2: 9,
-  },
-  {
-    0: 3,
-    1: 5,
-    2: 7,
-  },
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9],
+  [1, 4, 7],
+  [2, 5, 8],
+  [3, 6, 9],
+  [1, 5, 9],
+  [3, 5, 7],
 ];
 let currentSituation = true;
 let checkXorO = true;
@@ -147,17 +115,15 @@ function multicheck() {
       reset();
     }
   } else if (firstuserInputlength == 4 && seconduserInputlength != 4) {
-    testinput1.shift();
-    value = checkMatch(testinput1, testinput2);
-    if (value == "firstWon") {
+    value = checkafterfour(testinput1);
+    if (value == "Won") {
       firstuserscore += 10;
       firstuserscoresection.innerText = firstuserscore;
       reset();
     }
   } else if (seconduserInputlength == 4) {
-    testinput2.shift();
-    value = checkMatch(testinput1, testinput2);
-    if (value == "secondWon") {
+    value = checkafterfour(testinput2);
+    if (value == "Won") {
       seconduserscore += 10;
       seconduserscoresection.innerText = seconduserscore;
       reset();
@@ -177,4 +143,27 @@ function reset() {
   seconduserInput.splice(0, seconduserInput.length);
   checkXorO = true;
   turnSection.innerHTML = "X";
+}
+function checkafterfour(arr) {
+  let i = 0;
+  let endresult = false;
+  patterns.forEach((e) => {
+    if (i != 3) {
+      for (let z = 0; z < arr.length; z++) {
+        const element = e.some((e) => e == arr[z]);
+        if (element) {
+          i++;
+        }
+      }
+      if (i == 3) {
+        console.log(e, "siuuuu");
+        endresult = true;
+      } else {
+        i = 0;
+      }
+    }
+  });
+  if (endresult) {
+    return "Won";
+  }
 }
